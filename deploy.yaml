@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+#env
+kind: Deployment
+metadata:
+#name pods
+  labels:
+  name: deployment
+  #namespace: development
+spec:
+#Banyaknya pod yang akan dicreate
+  replicas: 1
+  selector:
+    matchLabels:
+      type: webserver
+  template:
+    metadata:
+      labels:
+        type: webserver
+      name: webserver
+    spec:
+      containers:
+      - name: webserver1
+        image: webserver:1.0
+        ports: 
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+  #namespace: development
+spec:
+  selector:
+    type: loadbalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
